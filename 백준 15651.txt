@@ -1,0 +1,38 @@
+#include <iostream>
+
+//성공
+
+void makeProgression(int count, int n, int m, int *list, int *visit) {
+	if (count == m) {
+		for(int i=0;i<m;i++)
+			printf("%d ", list[i]);
+		printf("\n");
+		return;
+	}
+
+	for (int i = 1; i < n + 1; i++) {
+		if (!visit[i])
+			continue;
+		visit[i]--;				//해당 원소에 방문할때마다 -1
+		list[count] = i;
+		makeProgression(count + 1, n, m, list, visit);
+		visit[i]++;				//원래로 돌리기 위해 +1
+	}
+}
+
+int main() {
+	int N, M;
+
+	scanf("%d %d", &N, &M);
+	int *visit = new int[N+1];		//visit을 bool이 아닌 int로 선언
+	int *list = new int[M];
+
+	for (int i = 1; i < N + 1; i++)
+		visit[i] = M;				//visit에 M의 값을 입력
+
+	makeProgression(0, N, M, list, visit);
+
+	delete[] visit, list;
+
+	return 0;
+}
