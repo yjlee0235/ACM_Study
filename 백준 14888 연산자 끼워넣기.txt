@@ -1,0 +1,65 @@
+#include <iostream>
+
+//성공
+
+void putOp(int cnt, int n, int *input, int* opNum, int *max, int *min, int tmp) {
+	if (cnt == n-1) {
+		if (*max < tmp)
+			*max = tmp;
+		if (*min > tmp)
+			*min = tmp;
+		return;
+	}
+	else {
+		for (int i = 0; i < 4; i++) {
+			//복구 목적으로 tempData에 tmp를 저장
+			int tempData = tmp;
+			if (opNum[i]) {
+				opNum[i]--;
+				//연산자대로 계산
+				switch (i) {
+				case 0:
+					tmp += input[cnt+1];
+					break;
+				case 1:
+					tmp -= input[cnt+1];
+					break;
+				case 2:
+					tmp *= input[cnt+1];
+					break;
+				default:
+					tmp /= input[cnt+1];
+				}
+				putOp(cnt + 1, n, input, opNum, max, min, tmp);
+				//원래대로 복구
+				opNum[i]++;
+				tmp = tempData;
+			}
+		}
+	}
+}
+
+int main() {
+	int N;
+	int min = 1000000001, max = -1000000001;	//min에 높은 수, max에 낮은 수 입력
+	int opNum[4];
+
+	scanf("%d", &N);
+	int *input = new int[N];
+
+	//수열 입력
+	for (int i = 0; i < N; i++)
+		scanf("%d", &input[i]);
+
+	//연산자 입력
+	for (int i = 0; i < 4; i++)
+		scanf("%d", &opNum[i]);
+
+	putOp(0, N, input, opNum, &max, &min, input[0]);
+	
+	//결과 출력
+	printf("%d\n%d", max, min);
+
+	delete[] input;
+	return 0;
+}

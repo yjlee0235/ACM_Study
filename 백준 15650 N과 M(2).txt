@@ -1,0 +1,40 @@
+#include <iostream>
+
+//성공
+
+void makeProgression(int count, int n, int m, int *list, bool* visit, int idx) {
+	if (count == m) {
+		for (int i = 0; i < m; i++)
+			printf("%d ", list[i]);
+		printf("\n");
+		return;
+	}
+
+	for (int i = 1; i < n + 1; i++) {
+		//전에 선택된 값보다 작으면 스킵
+		if (visit[i] || i < idx)
+			continue;
+		visit[i] = true;
+		list[count] = i;
+		makeProgression(count + 1, n, m, list, visit, i);
+		visit[i] = false;
+	}
+}
+
+int main() {
+	int N, M;
+
+	scanf("%d %d", &N, &M);
+
+	int *list = new int[M];
+	bool *visit = new bool[N + 1];
+
+	for (int i = 0; i < N + 1; i++)
+		visit[i] = false;
+
+	makeProgression(0, N, M, list, visit, 0);
+
+	delete[] list, visit;
+
+	return 0;
+}
