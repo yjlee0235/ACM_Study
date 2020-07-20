@@ -1,0 +1,103 @@
+#include <iostream>
+
+//시간 초과
+
+int calcMinStatus(int *s, int *team, int n) {
+	int ss = 0, ls = 0;
+	int mid = n / 2;
+	int ret;
+
+	//start팀의 능력치 계산
+	for (int i = 0; i < mid - 1; i++)
+		for (int j = i + 1; j < mid; j++)
+			//s가 1차원 배열으로 선언되었음
+			ss += s[n * (team[i] - 1) + team[j] - 1] + s[n * (team[j] - 1) + team[i] - 1];
+	//link팀의 능력치 계산
+	for (int i = mid; i < n - 1; i++)
+		for (int j = i + 1; j < n; j++)
+			//s가 1차원 배열으로 선언되었음
+			ls += s[n * (team[i] - 1) + team[j] - 1] + s[n * (team[j] - 1) + team[i] - 1];
+
+	ret = ss - ls;
+	//ret는 능력치 차이이기 때문에 항상 양수
+	return ret > 0 ? ret : -ret;
+}
+/*
+//백트래킹으로 팀이 나올수 있는 모든 경우를 조사
+void makeTeam(int cnt, int n, int *s, bool *visit, int *team, int *min) {
+	if (cnt == n) {
+		int tmp = calcMinStatus(s, team, n);
+		if (tmp < *min)
+			*min = tmp;
+		return;
+	}
+	else {
+		for (int i = 0; i < n; i++) {
+			if (!visit[i]) {
+				visit[i] = true;
+				team[cnt] = i + 1;
+				makeTeam(cnt + 1, n, s, visit, team, min);
+				visit[i] = false;
+			}
+		}
+	}
+}
+*/
+
+void makeTeam(int cnt, int n, int *s, bool *visit, int *team, int *min) {
+	int mid = n / 2;
+
+	//팀간 능력치의 차이가 0인 경우에 스킵
+	if (*min == 0)
+		return;
+
+	if (cnt == mid) {
+		int idx = mid;
+		// 남은 team 완성
+		for (int i = 0; i < n; i++) {
+			if (!visit[i]) {
+				team[idx] = i + 1;
+				idx++;
+			}
+		}
+		int tmp = calcMinStatus(s, team, n);
+		if (tmp < *min)
+			*min = tmp;
+		return;
+	}
+	else {
+		//team배열을 반만 완성
+		for (int i = 0; i < n; i++) {
+			if (!visit[i]) {
+				visit[i] = true;
+				team[cnt] = i + 1;
+				makeTeam(cnt + 1, n, s, visit, team, min);
+				visit[i] = false;
+				if (*min == 0)
+					return;
+			}
+		}
+	}
+}
+
+int main() {
+	int N, min = 9999999;
+
+	scanf("%d", &N);
+
+	int *S = new int[N*N];
+	int *team = new int[N];		//start팀은 index 0 ~ N/2-1까지 link팀은 index N/2 ~ N까지
+	bool *visit = new bool[N];
+
+	for (int i = 0; i < N*N; i++)
+		scanf("%d", &S[i]);
+
+	for (int i = 0; i < N; i++)
+		visit[i] = false;
+
+	makeTeam(0, N, S, visit, team, &min);
+	printf("%d\n", min);
+
+	delete[] S, team, visit;
+	return 0;
+}
