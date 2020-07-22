@@ -1,0 +1,71 @@
+#include <cstdio>
+#include <vector>
+
+//성공
+
+//올림연산해주는 함수 -> vector의 원소에 10미만의 데이터만 존재
+void makeTenLess(std::vector<int> &vec) {
+	int carry;
+	for (int i = vec.size() - 1; i >= 0; i--) {
+		if (vec[i] >= 10) {
+			carry = vec[i] / 10;
+			vec[i] %= 10;
+			if(i != 0)
+				vec[i - 1] += carry;
+			//index가 맨앞([0])이며 값이 10을 넘는 경우
+			else {
+				vec.insert(vec.begin(), carry);
+				while (vec[i] >= 10) {
+					carry = vec[i] / 10;
+					vec[i] %= 10;
+					vec.insert(vec.begin(), carry);
+				}
+			}
+		}
+	}
+}
+
+//반복 사용
+void fibo(std::vector<int> &res, int n) {
+	//before -> 이전 항목, current -> 현재 항목
+	std::vector<int> before, current, tmp;
+
+	//초기화
+	before.push_back(0);
+	current.push_back(1);
+
+	//0, 1일 경우 반복을 피하기위해 따로 설정
+	if (n == 0) {
+		res = before;
+		return;
+	}
+	else if (n == 1) {
+		res = current;
+		return;
+	}
+	int bIdx, cIdx;
+	//각 자리수의 덧셈
+	for (int i = 1; i < n; i++) {
+		tmp = current;
+		for (bIdx = before.size() - 1, cIdx = current.size() - 1; bIdx >= 0; bIdx--, cIdx--)
+			current[cIdx] += before[bIdx];
+			makeTenLess(current);
+		before = tmp;
+	}
+	res = current;
+}
+
+int main() {
+	int n;
+	//vector의 원소 하나를 하나의 자리수로 생각
+	std::vector<int> res;
+
+	scanf("%d", &n);
+
+	fibo(res, n);
+	//결과 출력
+	for (int i = 0; i < res.size(); i++)
+		printf("%d", res[i]);
+
+	return 0;
+}
