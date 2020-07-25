@@ -1,0 +1,25 @@
+#include <cstdio>
+
+//성공
+
+//bottom up 방식 사용
+long long int addTri(long long int *p, int n) {
+	if (n < 5)
+		return p[n - 1];
+	for (int i = 5; i < n; i++)
+		p[i] = p[i - 5] + p[i - 1];
+	return p[n - 1];
+}
+
+int main() {
+	int T, N;
+	//계산 결과가 int를 넘어가므로 long long int를 사용
+	long long int P[101] = {1,1,1,2,2};
+
+	scanf("%d", &T);
+	for (int i = 0; i < T; i++) {
+		scanf("%d", &N);
+		printf("%lld\n", addTri(P, N));
+	}
+	return 0;
+}

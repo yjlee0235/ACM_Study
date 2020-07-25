@@ -1,0 +1,40 @@
+#include <cstdio>
+
+//실패 -> int 범위를 넘어서서 런타임 오류 발생
+
+/*
+//방법 1 -> 이론적으론 맞으나 int 범위를 넘기 때문에 오류 발생
+int fact(int n, int end) {
+	int ret = 1;
+	for (int i = n; i > end; i--)
+		ret *= i;
+	return ret;
+}
+
+int tileNum(int n) {
+	int cnt = 0;
+	//zt -> 00타일의 개수, ot -> 1타일의 개수
+	int zt, ot;
+
+	for (zt = 0; zt <= (n / 2); zt++) {
+		ot = n - (2 * zt);
+		//zt타일의 개수가 0일 경우 ot의 개수는 n개이므로 1 가지 경우만 존재
+		if (zt == 0)
+			cnt++;
+		else
+			cnt += fact(zt + ot, ot) / fact(zt, 1);
+	}
+	return (cnt % 15746);
+}
+*/
+
+//방법 2 -> 동적계획법을 사용하면 문제 해결
+
+int tileNum() {
+
+}
+int main() {
+	int N;
+	scanf("%d", &N);
+	printf("%d\n", tileNum(N));
+	return 0;
