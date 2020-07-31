@@ -1,0 +1,96 @@
+#include <cstdio>
+#include <cstring>
+
+//성공 -> 방법 1 : 시간 오래걸림, 방법 2 : 속도 빠름
+
+typedef struct {
+	int data[10001];
+	int top;
+}StackType;
+/*
+//방법 1
+void stackOp(StackType *s, char *input) {
+	int data = 0, i;
+
+	//input의 문자열의 길이
+	for (i = 0;; i++)
+		if(input[i] == '\0') break;
+
+	//데이터 추출
+	int idx = 1;
+	while (input[i - 1] >= '0' && input[i - 1] <= '9') {
+		data += (input[i - 1] - '0') * idx;
+		idx *= 10;
+		i--;
+	}
+
+	switch (input[0]) {
+	case 'p':
+		//push인 경우
+		if (input[1] == 'u') {
+			s->data[++s->top] = data;
+		}
+		//pop인 경우
+		else {
+			if (s->top == -1) {
+				printf("-1\n");
+				break;
+			}
+			printf("%d\n", s->data[s->top--]);
+		}
+		break;
+		//size인 경우
+	case 's':
+		printf("%d\n", (s->top + 1));
+		break;
+	case 'e':
+		printf("%d\n", (s->top == -1));
+		break;
+	case 't':
+		if (s->top == -1) {
+			printf("-1\n");
+			break;
+		}
+		printf("%d\n", s->data[s->top]);
+		break;
+	}
+}
+*/
+
+//방법 2
+void push(StackType *s) {
+	int data;
+	scanf("%d", &data);
+	s->data[++s->top] = data;
+}
+int pop(StackType *s) {
+	if (s->top == -1)
+		return -1;
+	return s->data[s->top--];
+}
+int main() {
+	int N;
+	char input[10];
+	StackType s;
+	s.top = -1;
+
+	scanf("%d", &N);
+	while(N--) {
+		scanf("%s", input);
+		if (!strcmp(input, "push"))
+			push(&s);
+		else if (!strcmp(input, "pop"))
+			printf("%d\n", pop(&s));
+		else if (!strcmp(input, "size"))
+			printf("%d\n", s.top + 1);
+		else if (!strcmp(input, "empty"))
+			printf("%d\n", (s.top == -1));
+		else {
+			if (s.top == -1)
+				printf("-1\n");
+			else
+				printf("%d\n", s.data[s.top]);
+		}	
+	}
+	return 0;
+}
