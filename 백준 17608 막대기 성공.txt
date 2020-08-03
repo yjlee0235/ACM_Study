@@ -1,0 +1,26 @@
+#include <cstdio>
+
+//성공
+
+int solution(int *sticks, int n) {
+	int max = sticks[n - 1];
+	int count = 1;
+	for (int i = n - 2; i >= 0; i--) {
+		if (max < sticks[i]) {
+			max = sticks[i];
+			count++;
+		}
+	}
+	return count;
+}
+int main() {
+	int N;
+	int sticks[100001];
+
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++)
+		scanf("%d", &sticks[i]);
+
+	printf("%d\n", solution(sticks, N));
+	return 0;
+}

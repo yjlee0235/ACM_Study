@@ -1,0 +1,37 @@
+#include <cstdio>
+
+//성공
+
+int strlen(char *arr) {
+	for (int i = 0;; i++)
+		if (arr[i] == '\0')
+			return i;
+}
+
+int main() {
+	char input[100001];
+	int cnt = 0, res = 0;
+	
+	scanf("%s", input);
+	int len = strlen(input);
+
+	for (int i = 0; i < len; i++) {
+		if (input[i] == '(') {
+			if (input[i + 1] == ')') {
+				res += cnt;
+				continue;
+			}
+			else
+				cnt++;
+		}
+		else {
+			if (input[i - 1] == '(')
+				continue;
+			res++;
+			cnt--;
+		}
+	}
+	printf("%d\n", res);
+
+	return 0;
+}
