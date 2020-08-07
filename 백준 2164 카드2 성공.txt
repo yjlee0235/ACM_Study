@@ -1,0 +1,58 @@
+#include <cstdio>
+#include <queue>
+
+//성공
+
+/*
+//방법 1 -> STL사용
+int solution(int n) {
+	std::queue<int> q;
+	int tmp;
+	for (int i = 1; i <= n; i++)
+		q.push(i);
+	while (q.size() > 1) {
+		q.pop();
+		tmp = q.front();
+		q.pop();
+		q.push(tmp);
+	}
+	return q.front();
+}
+
+int main() {
+	int N;
+	scanf("%d", &N);
+	printf("%d\n", solution(N));
+	return 0;
+}
+*/
+
+//방법 2 -> 배열로 구현한 queue사용
+int queue[500001];
+int front, rear;
+
+int solution(int n) {
+	front = rear = 0;
+	int size = n;
+	//1인 경우
+	if (n == 1)
+		return 1;
+
+	for (int i = 1; i <= n; i++)
+		queue[i] = i;
+	rear = n;
+	while (size > 1) {
+		size--;
+		front = (front + 2) % 500001;
+		rear = (rear + 1) % 500001;
+		queue[rear] = queue[front];
+	}
+	return queue[front];
+}
+
+int main() {
+	int N;
+	scanf("%d", &N);
+	printf("%d\n", solution(N));
+	return 0;
+}
