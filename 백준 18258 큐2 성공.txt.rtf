@@ -1,0 +1,162 @@
+{\rtf1\ansi\ansicpg949\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset129 AppleSDGothicNeo-Regular;\f2\fnil\fcharset0 Menlo-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red108\green121\blue134;\red31\green31\blue36;\red255\green255\blue255;
+\red253\green143\blue63;\red252\green106\blue93;\red252\green95\blue163;\red65\green161\blue192;\red208\green191\blue105;
+\red103\green183\blue164;\red161\green103\blue230;\red103\green183\blue164;}
+{\*\expandedcolortbl;;\csgenericrgb\c42394\c47462\c52518;\csgenericrgb\c12054\c12284\c14131;\csgenericrgb\c100000\c100000\c100000\c85000;
+\csgenericrgb\c99131\c56076\c24611;\csgenericrgb\c98912\c41558\c36568;\csgenericrgb\c98839\c37355\c63833;\csgenericrgb\c25490\c63137\c75294;\csgenericrgb\c81498\c74939\c41233;
+\csgenericrgb\c40538\c71705\c64209;\csgenericrgb\c63137\c40392\c90196;\csgenericrgb\c40392\c71765\c64314;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab593
+\pard\tx593\pardeftab593\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 //
+\f1 \'b9\'e9\'c1\'d8
+\f0  18258 
+\f1 \'c5\'a5
+\f0 2\cf4 \
+\cf5 #include \cf6 <cstdio>\cf4 \
+\cf5 #include \cf6 <cstring>\
+\
+//
+\f1 \'bc\'ba\'b0\'f8
+\f0 \cf4 \
+\
+
+\f2\b \cf7 const
+\f0\b0 \cf4  
+\f2\b \cf7 int
+\f0\b0 \cf4  \cf8 MAX_QUEUE_SIZE\cf4  = \cf9 2000001\cf4 ;\
+\
+
+\f2\b \cf7 int
+\f0\b0 \cf4  \cf8 queue\cf4 [\cf10 MAX_QUEUE_SIZE\cf4 ];\
+
+\f2\b \cf7 int
+\f0\b0 \cf4  \cf8 head\cf4  = \cf9 0\cf4 , \cf8 tail\cf4  = \cf9 0\cf4 ;\
+\
+
+\f2\b \cf7 void
+\f0\b0 \cf4  \cf8 operate\cf4 (
+\f2\b \cf7 char
+\f0\b0 \cf4 * op)\{\
+    
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "push"\cf4 ))\{\
+        
+\f2\b \cf7 if
+\f0\b0 \cf4 (\cf10 head\cf4  == ((\cf10 tail\cf4  + \cf9 1\cf4 ) % \cf10 MAX_QUEUE_SIZE\cf4 ))\{\
+            \cf11 printf\cf4 (\cf6 "Queue
+\f1 \'bf\'a1
+\f0  
+\f1 \'b4\'f5\'c0\'cc\'bb\'f3
+\f0  
+\f1 \'b3\'b2\'c0\'ba
+\f0  
+\f1 \'b0\'f8\'b0\'a3\'c0\'cc
+\f0  
+\f1 \'be\'f8\'bd\'c0\'b4\'cf\'b4\'d9
+\f0 .\\n"\cf4 );\
+            
+\f2\b \cf7 return
+\f0\b0 \cf4 ;\
+        \}\
+        
+\f2\b \cf7 int
+\f0\b0 \cf4  data;\
+        \cf11 scanf\cf4 (\cf6 "%d"\cf4 , &data);\
+        \cf10 queue\cf4 [++\cf10 tail\cf4 ] = data;\
+    \}\
+    
+\f2\b \cf7 else
+\f0\b0 \cf4  
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "pop"\cf4 ))\{\
+        
+\f2\b \cf7 if
+\f0\b0 \cf4 (\cf10 head\cf4  == \cf10 tail\cf4 )\
+            \cf11 printf\cf4 (\cf6 "-1\\n"\cf4 );\
+        
+\f2\b \cf7 else
+\f0\b0 \cf4 \{\
+            \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , \cf10 queue\cf4 [++\cf10 head\cf4 ]);\
+        \}\
+    \}\
+    
+\f2\b \cf7 else
+\f0\b0 \cf4  
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "size"\cf4 ))\{\
+        
+\f2\b \cf7 if
+\f0\b0 \cf4 (\cf10 head\cf4  > \cf10 tail\cf4 )\
+            \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , ((\cf10 tail\cf4  + \cf10 MAX_QUEUE_SIZE\cf4 ) - \cf10 head\cf4 ));\
+        
+\f2\b \cf7 else
+\f0\b0 \cf4 \
+            \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , (\cf10 tail\cf4  - \cf10 head\cf4 ));\
+    \}\
+    
+\f2\b \cf7 else
+\f0\b0 \cf4  
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "empty"\cf4 ))\{\
+        \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , (\cf10 head\cf4  == \cf10 tail\cf4 ));\
+    \}\
+    
+\f2\b \cf7 else
+\f0\b0 \cf4  
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "front"\cf4 ))\{\
+        
+\f2\b \cf7 if
+\f0\b0 \cf4 (\cf10 head\cf4  == \cf10 tail\cf4 )\
+            \cf11 printf\cf4 (\cf6 "-1\\n"\cf4 );\
+        
+\f2\b \cf7 else
+\f0\b0 \cf4 \
+            \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , \cf10 queue\cf4 [\cf10 head\cf4  + \cf9 1\cf4 ]);\
+    \}\
+    
+\f2\b \cf7 else
+\f0\b0 \cf4  
+\f2\b \cf7 if
+\f0\b0 \cf4 (!\cf11 strcmp\cf4 (op, \cf6 "back"\cf4 ))\{\
+        
+\f2\b \cf7 if
+\f0\b0 \cf4 (\cf10 head\cf4  == \cf10 tail\cf4 )\
+            \cf11 printf\cf4 (\cf6 "-1\\n"\cf4 );\
+        
+\f2\b \cf7 else
+\f0\b0 \cf4 \
+            \cf11 printf\cf4 (\cf6 "%d\\n"\cf4 , \cf10 queue\cf4 [\cf10 tail\cf4 ]);\
+    \}\
+\}\
+\
+
+\f2\b \cf7 int
+\f0\b0 \cf4  \cf8 main\cf4 ()\{\
+    
+\f2\b \cf7 int
+\f0\b0 \cf4  N;\
+    
+\f2\b \cf7 char
+\f0\b0 \cf4  op[\cf9 7\cf4 ];\
+    \
+    \cf11 scanf\cf4 (\cf6 "%d"\cf4 , &N);\
+    
+\f2\b \cf7 for
+\f0\b0 \cf4 (
+\f2\b \cf7 int
+\f0\b0 \cf4  i=\cf9 0\cf4 ;i<N;i++)\{\
+        \cf11 scanf\cf4 (\cf6 "%s"\cf4 , op);\
+        \cf12 operate\cf4 (op);\
+    \}\
+    \
+    
+\f2\b \cf7 return
+\f0\b0 \cf4  \cf9 0\cf4 ;\
+\}\
+\
+}
