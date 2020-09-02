@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stack>
+
+//성공
+
+int main() {
+	int N;
+
+	scanf("%d", &N);
+	std::cin.ignore();
+	for (int i = 1; i <= N; i++) {
+		std::string input;
+		std::stack<std::string> ss;
+		getline(std::cin, input);
+		
+		std::stringstream str;
+		str.str(input);
+		std::string word;
+		while (str >> word)
+			ss.push(word);
+
+		std::cout << "Case #" << i << ": ";
+		while (!ss.empty()) {
+			std::cout << ss.top() << ' ';
+			ss.pop();
+		}
+		std::cout << std::endl;
+	}
+	return 0;
+}

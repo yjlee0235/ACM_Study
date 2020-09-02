@@ -1,0 +1,17 @@
+#include <iostream>
+
+//성공
+
+int main() {
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(0);
+
+	int T, first, second;
+
+	std::cin >> T;
+	for (int i = 0; i < T; i++) {
+		std::cin >> first >> second;
+		std::cout << first + second << '\n';
+	}
+	return 0;
+}

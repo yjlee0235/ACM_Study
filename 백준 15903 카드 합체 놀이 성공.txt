@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+//성공 -> 방법 1 (C++ STL 사용)
+
+unsigned long long card_merge_game(std::priority_queue<unsigned long long, std::vector<unsigned long long>, std::greater<unsigned long long>> pq, int m) {
+	unsigned long long tmp, sum = 0;
+	while (m--) {
+		tmp = pq.top();
+		pq.pop();
+		tmp += pq.top();
+		pq.pop();
+		for (int i = 0; i < 2; i++)
+			pq.push(tmp);
+	}
+	while (!pq.empty()) {
+		sum += pq.top();
+		pq.pop();
+	}
+	return sum;
+}
+
+int main() {
+	int n, m;
+	std::priority_queue<unsigned long long, std::vector<unsigned long long>, std::greater<unsigned long long>> pq;
+	unsigned long long card;
+	
+	scanf("%d %d", &n, &m);
+	for (int i = 0; i < n; i++) {
+		scanf("%llu", &card);
+		pq.push(card);
+	}
+	printf("%llu\n", card_merge_game(pq, m));
+	return 0;
+}
+/*
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+//성공 -> 방법 2 (C언어)
+
+typedef struct {
+	unsigned long long data[100001];
+	int size;
+}Heap;
+void init(Heap* h) {
+	h->size = 0;
+}
+void insert(Heap* h, unsigned long long x) {
+	int i = ++(h->size);
+	while ((i != 1) && (x < h->data[i / 2])) {
+		h->data[i] = h->data[i / 2];
+		i = i / 2;
+	}
+	h->data[i] = x;
+}
+unsigned long long delete(Heap* h) {
+	if (h->size > 0) {
+		int p, c;
+		unsigned long long i, tmp;
+		i = h->data[1];
+		tmp = h->data[(h->size)--];
+		p = 1; c = 2;
+		while (c <= h->size) {
+			if (c < h->size && h->data[c] > h->data[c + 1])
+				c++;
+			if (tmp <= h->data[c])
+				break;
+			h->data[p] = h->data[c];
+			p = c; c *= 2;
+		}
+		h->data[p] = tmp;
+		return i;
+	}
+}
+
+int main() {
+	unsigned long long a, b, x, sum = 0;
+	int cards, count;
+	Heap* h = (Heap*)malloc(sizeof(Heap));
+	init(h);
+	scanf("%d %d", &cards, &count);
+	while (cards--) {
+		scanf("%llu", &x);
+		insert(h, x);
+	}
+	while (count--) {
+		a = delete(h);
+		b = delete(h);
+		insert(h, a + b);
+		insert(h, a + b);
+	}
+	while (h->size != 0) {
+		sum += delete(h);
+	}
+	printf("%llu\n", sum);
+	return 0;
+}
+
+*/

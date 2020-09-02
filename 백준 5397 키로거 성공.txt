@@ -1,0 +1,129 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+//성공
+
+typedef struct node {
+	char data;
+	struct node *llink, *rlink;
+}node;
+
+typedef struct {
+	node *head, *cur;
+	int size;
+}list;
+void init(list *l) {
+	l->head = NULL;
+	l->cur = NULL;
+	l->size = 0;
+}
+
+void insert(list *l, char data) {
+	node *newNode = (node *)malloc(sizeof(node));
+	newNode->data = data;
+	if (!l->size) {
+		l->head = newNode;
+		l->cur = newNode;
+		newNode->llink = NULL;
+		newNode->rlink = NULL;
+	}
+	else if (!l->cur) {
+		newNode->llink = NULL;
+		newNode->rlink = l->head;
+		l->cur = newNode;
+		l->head = newNode;
+	}
+	else if (!l->cur->rlink) {
+		l->cur->rlink = newNode;
+		newNode->llink = l->cur;
+		newNode->rlink = NULL;
+		l->cur = l->cur->rlink;
+	}
+	else {
+		l->cur->rlink->llink = newNode;
+		newNode->rlink = l->cur->rlink;
+		l->cur->rlink = newNode;
+		newNode->llink = l->cur;
+		l->cur = l->cur->rlink;
+	}
+	l->size++;
+}
+void backspace(list *l) {
+	node *removed;
+	if (!l->size || !l->cur)
+		return;
+	else if (l->size == 1) {
+		removed = l->cur;
+		l->head = l->cur = NULL;
+	}
+	else if (!l->cur->llink) {
+		removed = l->cur;
+		l->cur->rlink->llink = NULL;
+		l->head = l->head->rlink;
+		l->cur = NULL;
+	}
+	else if (!l->cur->rlink) {
+		removed = l->cur;
+		l->cur->llink->rlink = NULL;
+		l->cur = l->cur->llink;
+	}
+	else{
+		removed = l->cur;
+		l->cur->rlink->llink = l->cur->llink;
+		l->cur->llink->rlink = l->cur->rlink;
+		l->cur = l->cur->llink;
+	}
+	l->size--;
+	free(removed);
+}
+void moveforward(list *l) {
+	if (!l->cur)
+		return;
+	l->cur = l->cur->llink;
+}
+void movebackward(list *l) {
+	if (!l->cur || !l->cur->rlink) {
+		if (!l->cur && l->size != 0)
+			l->cur = l->head;
+		return;
+	}
+	l->cur = l->cur->rlink;
+}
+void getPw(list *l, char* res) {
+	int i = 0;
+	node *tmp;
+	for (tmp = l->head; tmp != NULL; tmp = tmp->rlink, i++)
+		res[i] = tmp->data;
+	res[i] = '\0';
+}
+
+int main() {
+	int T;
+	char tmp;
+	char res[1000001];
+
+	scanf("%d", &T);
+	//개행문자 제거용
+	getchar();
+	while (T--) {
+		list l;
+		init(&l);
+		while (1) {
+			scanf("%c", &tmp);
+			if (tmp == '\n')
+				break;
+			if (tmp == '<')
+				moveforward(&l);
+			else if (tmp == '>')
+				movebackward(&l);
+			else if (tmp == '-')
+				backspace(&l);
+			else
+				insert(&l, tmp);
+		}
+		getPw(&l, res);
+		printf("%s\n", res);
+	}
+	return 0;
+}

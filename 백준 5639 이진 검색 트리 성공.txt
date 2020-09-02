@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//성공
+
+typedef struct tnode{
+	int data;
+	struct tnode *left, *right;
+}tnode;
+
+void input_bst(tnode **root, int data) {
+	tnode *tmp = *root;
+	tnode *newNode = (tnode*)malloc(sizeof(tnode));
+	newNode->data = data;
+	newNode->left = newNode->right = NULL;
+	if (!tmp)
+		*root = newNode;
+	else {
+		while (tmp->left || tmp->right) {
+			if (tmp->data > data) {
+				if (!tmp->left)
+					break;
+				tmp = tmp->left;
+			}
+			else {
+				if (!tmp->right)
+					break;
+				tmp = tmp->right;
+			}
+		}
+		if (tmp->data > data)
+			tmp->left = newNode;
+		else
+			tmp->right = newNode;
+	}
+}
+
+void postorder(tnode *root) {
+	if (root) {
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d\n", root->data);
+		free(root);
+	}
+}
+
+int main() {
+	int input;
+	tnode *root = NULL;
+
+	while (scanf("%d", &input) != EOF) {
+		input_bst(&root, input);
+		getchar();
+	}
+	postorder(root);
+	return 0;
+}

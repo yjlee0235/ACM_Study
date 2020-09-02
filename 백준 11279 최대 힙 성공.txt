@@ -1,0 +1,101 @@
+#include <stdio.h>
+
+//성공 -> 방법 1
+
+int arr[100001];
+int size;
+
+int main() {
+	int N, input, i=0;
+
+	scanf("%d", &N);
+	while (N--) {
+		scanf("%d", &input);
+		if (!input) {
+			if (!size)
+				printf("0\n");
+			else {
+				printf("%d\n", arr[1]);
+				int parent = 1, child = 2, tmp = arr[size--];
+				while (child <= size) {
+					if (child < size && arr[child] < arr[child + 1])
+						child++;
+					if (tmp >= arr[child])
+						break;
+					arr[parent] = arr[child];
+					parent = child;
+					child *= 2;
+				}
+				arr[parent] = tmp;
+			}
+		}
+		else {
+			arr[++size] = input;
+			i = size;
+			while ((i != 1) && (input > arr[i/2])) {
+				arr[i] = arr[i / 2];
+				i /= 2;
+			}
+			arr[i] = input;
+		}
+	}
+	return 0;
+}
+
+/*
+#include <stdio.h>
+
+//성공 -> 방법 2
+
+typedef struct {
+	unsigned int heap[100001];
+	int size;
+}Heaptype;
+
+void init_heap(Heaptype *h) {
+	h->size = 0;
+}
+void insert_heap(Heaptype *h, int data) {
+	int i = ++h->size;
+	while (i != 1 && data > h->heap[i / 2]) {
+		h->heap[i] = h->heap[i / 2];
+		i /= 2;
+	}
+	h->heap[i] = data;
+}
+unsigned int delete_heap(Heaptype *h) {
+	int ret = h->heap[1];
+	int parent = 1, child = 2, tmp = h->heap[h->size];
+	if (!h->size)
+		return 0;
+	while (child <= h->size) {
+		if (child < h->size && h->heap[child] < h->heap[child + 1])
+			child++;
+		if (tmp >= h->heap[child])
+			break;
+		h->heap[parent] = h->heap[child];
+		parent = child;
+		child *= 2;
+	}
+	h->heap[parent] = tmp;
+	h->size--;
+	return ret;
+}
+
+int main() {
+	int N;
+	unsigned int x;
+	Heaptype h;
+	init_heap(&h);
+
+	scanf("%d", &N);
+	while (N--) {
+		scanf("%d", &x);
+		if (!x)
+			printf("%d\n", delete_heap(&h));
+		else
+			insert_heap(&h, x);
+	}
+	return 0;
+}
+*/

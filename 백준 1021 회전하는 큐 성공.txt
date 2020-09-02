@@ -1,0 +1,55 @@
+#include <cstdio>
+#include <list>
+
+//성공
+
+//1 : 왼쪽, 2 : 오른쪽, 0 : 리스트에 해당 원소 존재하지 않음
+int leftorright(std::list<int> ls, int num) {
+	int i = 1;
+	for (std::list<int>::iterator it = ls.begin(); it != ls.end(); it++, i++) {
+		if (*it == num)
+			return i-1 <= (ls.size() - i + 1) ? 1 : 2;
+	}
+	return 0;
+}
+
+int solution(std::list<int> ls, int *pnum, int m) {
+	int i = 0;
+	int lr, cnt = 0;
+	while (i < m && (lr = leftorright(ls, pnum[i]))) {
+		if (lr == 1) {
+			while (ls.front() != pnum[i]) {
+				ls.push_back(ls.front());
+				ls.pop_front();
+				cnt++;
+			}
+		}
+		else if (lr == 2) {
+			while (ls.front() != pnum[i]) {
+				ls.push_front(ls.back());
+				ls.pop_back();
+				cnt++;
+			}
+		}
+		ls.pop_front();
+		i++;
+	}
+	return cnt;
+}
+
+int main() {
+	int N, M;
+	std::list<int> ls;
+	int pnum[51];
+
+	scanf("%d %d", &N, &M);
+
+
+	for (int i = 1; i <= N; i++)
+		ls.push_back(i);
+	for (int i = 0; i < M; i++)
+		scanf("%d", &pnum[i]);
+	printf("%d\n", solution(ls, pnum, M));
+
+	return 0;
+}
